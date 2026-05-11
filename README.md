@@ -1,7 +1,7 @@
 # Portfolio
 
 Welcome to my portfolio repository! This project showcases my work, skills, and experience as a developer.
-
+[Visit My Portfolio](https://tanjilalam.vercel.app)
 ## Table of Contents
 
 - [About](#about)
@@ -25,32 +25,6 @@ This portfolio serves as a comprehensive showcase of my professional work, proje
 - 🔧 Multiple projects showcase
 - 📧 Contact form
 - 🌙 Dark mode support
-
-## Projects
-
-Here are some of my notable projects:
-
-### Project 1
-Brief description of your first project.
-- **Technologies**: List technologies used
-- **Link**: [View Project](link-to-project)
-
-### Project 2
-Brief description of your second project.
-- **Technologies**: List technologies used
-- **Link**: [View Project](link-to-project)
-
-### Project 3
-Brief description of your third project.
-- **Technologies**: List technologies used
-- **Link**: [View Project](link-to-project)
-
-## Technologies
-
-- **Frontend**: HTML, CSS, JavaScript, React
-- **Backend**: Node.js, Express
-- **Database**: MongoDB
-- **Tools**: Git, GitHub, VS Code
 
 ## Getting Started
 
