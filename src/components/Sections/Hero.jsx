@@ -143,10 +143,10 @@ export default function Hero() {
           <div style={{ width: 280, height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {/* Fallback SVG mask if 3D fails */}
             <svg viewBox="0 0 220 260" width="220" height="260" fill="none" style={{ filter: 'drop-shadow(0 0 20px rgba(178,34,34,0.7))' }}>
-              <ellipse cx="110" cy="130" rx="85" ry="110" fill="#1a1a1a" stroke="#B22222" strokeWidth="2"/>
-              <ellipse cx="78" cy="105" rx="10" ry="4" fill="#B22222" opacity="0.9"/>
-              <ellipse cx="142" cy="105" rx="10" ry="4" fill="#B22222" opacity="0.9"/>
-              <ellipse cx="110" cy="130" rx="100" ry="120" fill="none" stroke="rgba(178,34,34,0.3)" strokeWidth="1" strokeDasharray="6 4"/>
+              <ellipse cx="110" cy="130" rx="85" ry="110" fill="#1a1a1a" stroke="#B22222" strokeWidth="2" />
+              <ellipse cx="78" cy="105" rx="10" ry="4" fill="#B22222" opacity="0.9" />
+              <ellipse cx="142" cy="105" rx="10" ry="4" fill="#B22222" opacity="0.9" />
+              <ellipse cx="110" cy="130" rx="100" ry="120" fill="none" stroke="rgba(178,34,34,0.3)" strokeWidth="1" strokeDasharray="6 4" />
             </svg>
           </div>
         }>

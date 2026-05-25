@@ -1,11 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ErrorBoundary from '../Common/ErrorBoundary';
 import R3FBackground from '../Common/R3FBackground';
+import emailjs from '@emailjs/browser';
 
 export default function Footer() {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const bounty = 1337 + Math.floor(Date.now() / 1000000) % 500;
+  // Stable bounty count — recalculates only once per mount
+  const bounty = useMemo(() => 1337 + Math.floor(Date.now() / 1000000) % 500, []);
+
+  // Modal visibility — starts closed
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Form data state
+  const [formData, setFormData] = useState({
+    identifier: '',
+    email: '',
+    payload: ''
+  });
+
+  const [isSending, setIsSending] = useState(false);
+
+  // In-form error/success feedback (replaces alert())
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
+  // Close button hover state (replaces inline style hacks)
+  const [closeBtnHovered, setCloseBtnHovered] = useState(false);
+
+  // Dynamically update state when user types
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (submitStatus) setSubmitStatus(null); // clear status on new input
+  };
+
+  // Handle form submission via EmailJS
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSending(true);
+    setSubmitStatus(null);
+
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    const templateParams = {
+      name_org: formData.identifier,
+      email: formData.email,
+      message: formData.payload,
+    };
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        setIsSending(false);
+        setFormData({ identifier: '', email: '', payload: '' });
+        setSubmitStatus('success');
+        // Auto-close modal after a short delay so user sees the success message
+        setTimeout(() => {
+          setModalOpen(false);
+          setSubmitStatus(null);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error('FAILED TO TRANSMIT:', error);
+        setIsSending(false);
+        setSubmitStatus('error');
+      });
+  };
+
+  const handleOpenModal = () => {
+    setSubmitStatus(null);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSubmitStatus(null);
+  };
 
   return (
     <footer
@@ -18,8 +89,6 @@ export default function Footer() {
         paddingBottom: '3rem',
       }}
     >
-
-
       <ErrorBoundary fallback={null}>
         <R3FBackground variant="default" />
       </ErrorBoundary>
@@ -40,14 +109,20 @@ export default function Footer() {
         className="content-layer"
         style={{ display: 'flex', gap: '5rem', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '5rem', flexWrap: 'wrap', zIndex: 10 }}
       >
-        <div className="footer-btn seal" role="button" tabIndex={0} onClick={() => setModalOpen(true)} onKeyDown={e => e.key === 'Enter' && setModalOpen(true)}>
+        <div
+          className="footer-btn seal"
+          role="button"
+          tabIndex={0}
+          onClick={handleOpenModal}
+          onKeyDown={e => e.key === 'Enter' && handleOpenModal()}
+        >
           <motion.div className="icon-wrap" whileHover={{ boxShadow: '0 0 30px var(--crimson)' }}>
             ✉
           </motion.div>
           <label style={{ color: 'var(--crimson)', letterSpacing: '0.5em' }}>SEAL_CONTRACT</label>
         </div>
 
-        <a className="footer-btn blade" href="#" aria-label="Download Resume">
+        <a className="footer-btn blade" href="/TanjilAlamResume-April2026.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download Resume">
           <motion.div className="icon-wrap" whileHover={{ boxShadow: '0 0 20px var(--steel)' }}>
             <span>⚔</span>
           </motion.div>
@@ -81,7 +156,7 @@ export default function Footer() {
           <p style={{ fontSize: '0.55rem', letterSpacing: '0.3em', color: 'rgba(209,213,219,0.3)' }}>
             © 2026 TANJIL ALAM // ALL PROTOCOLS SECURED
           </p>
-          <p style={{ fontSize: '0.5rem', letterSpacing: '0.2em', color: 'rgba(246, 247, 248, 0.15)', marginTop: '0.3rem' }}>
+          <p style={{ fontSize: '0.5rem', letterSpacing: '0.2em', color: 'rgba(246,247,248,0.15)', marginTop: '0.3rem' }}>
             STAY SILENT. STAY SHARP.
           </p>
         </div>
@@ -100,13 +175,13 @@ export default function Footer() {
 
       {/* Contact Modal */}
       <AnimatePresence>
-        {isModalOpen && (
+        {modalOpen && (
           <motion.div
             className="modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={e => e.target === e.currentTarget && setModalOpen(false)}
+            onClick={e => e.target === e.currentTarget && handleCloseModal()}
           >
             <motion.div
               className="modal-box"
@@ -115,36 +190,90 @@ export default function Footer() {
               exit={{ scale: 0.9, y: 40 }}
               transition={{ type: 'spring', damping: 20, stiffness: 260 }}
             >
+              {/* Modal Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
                 <h3 style={{ fontSize: '1.8rem', letterSpacing: '0.2em', color: 'var(--crimson)' }}>
                   TRANSMIT INTEL
                 </h3>
                 <button
-                  onClick={() => setModalOpen(false)}
-                  style={{ background: 'none', border: '1px solid rgba(209,213,219,0.2)', color: 'var(--steel-dim)', width: 36, height: 36, fontSize: '1rem', cursor: 'pointer', transition: 'border-color 0.2s, color 0.2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--crimson)'; e.currentTarget.style.color = 'var(--crimson)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(209,213,219,0.2)'; e.currentTarget.style.color = 'var(--steel-dim)'; }}
+                  onClick={handleCloseModal}
+                  aria-label="Close modal"
+                  onMouseEnter={() => setCloseBtnHovered(true)}
+                  onMouseLeave={() => setCloseBtnHovered(false)}
+                  style={{
+                    background: 'none',
+                    border: `1px solid ${closeBtnHovered ? 'var(--crimson)' : 'rgba(209,213,219,0.2)'}`,
+                    color: closeBtnHovered ? 'var(--crimson)' : 'var(--steel-dim)',
+                    width: 36, height: 36, fontSize: '1rem', cursor: 'pointer',
+                    transition: 'border-color 0.2s, color 0.2s',
+                  }}
                 >
                   ✕
                 </button>
               </div>
 
-              <form onSubmit={e => { e.preventDefault(); setModalOpen(false); }}>
+              {/* Transmission Intel Form */}
+              <form onSubmit={handleSubmit}>
+
                 <div className="form-field">
-                  <label>IDENTIFIER</label>
-                  <input type="text" placeholder="NAME // ORGANIZATION" />
+                  <label htmlFor="identifier">IDENTIFIER</label>
+                  <input
+                    id="identifier"
+                    type="text"
+                    name="identifier"
+                    placeholder="NAME // ORGANIZATION"
+                    value={formData.identifier}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
+
                 <div className="form-field">
-                  <label>ENCRYPTION CHANNEL</label>
-                  <input type="email" placeholder="EMAIL ADDRESS" required />
+                  <label htmlFor="email">ENCRYPTION CHANNEL</label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="EMAIL ADDRESS"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
+
                 <div className="form-field">
-                  <label>PAYLOAD</label>
-                  <textarea placeholder="MESSAGE CONTENT..." required />
+                  <label htmlFor="payload">PAYLOAD</label>
+                  <textarea
+                    id="payload"
+                    name="payload"
+                    placeholder="MESSAGE CONTENT..."
+                    value={formData.payload}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                <button className="btn-primary" type="submit" style={{ width: '100%', display: 'block', textAlign: 'center' }}>
-                  DISPATCH SIGNAL
+
+                {/* Inline status feedback */}
+                {submitStatus === 'success' && (
+                  <p style={{ color: 'palegreen', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '1rem', textAlign: 'center' }}>
+                    ✓ SIGNAL DISPATCHED SUCCESSFULLY
+                  </p>
+                )}
+                {submitStatus === 'error' && (
+                  <p style={{ color: 'var(--crimson)', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '1rem', textAlign: 'center' }}>
+                    ✕ TRANSMISSION FAILED — CHECK CONNECTION CONFIG
+                  </p>
+                )}
+
+                <button
+                  className="btn-primary"
+                  type="submit"
+                  disabled={isSending}
+                  style={{ width: '100%', display: 'block', textAlign: 'center' }}
+                >
+                  {isSending ? 'DISPATCHING SIGNAL...' : 'DISPATCH SIGNAL'}
                 </button>
+
               </form>
             </motion.div>
           </motion.div>

@@ -902,6 +902,7 @@ a {
 
 /* ─── MOBILE (≤ 768px) ────────────────────────────────────── */
 @media (max-width: 768px) {
+
   /* Layout */
   .snap-container {
     scroll-snap-type: y mandatory;
