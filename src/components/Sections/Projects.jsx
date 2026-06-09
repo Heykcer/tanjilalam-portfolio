@@ -43,7 +43,7 @@ export default function Projects() {
       <div className="vignette" />
       <div className="section-label">MODULE_03 // MISSION SCROLLS</div>
 
-      <div className="content-layer" style={{ width: '100%', maxWidth: 800, zIndex: 10 }}>
+      <div className="content-layer projects-content" style={{ width: '100%', maxWidth: 800, zIndex: 10 }}>
         <motion.h2
           style={{ fontSize: '3rem', letterSpacing: '0.15em', marginBottom: '3.5rem' }}
           initial={{ opacity: 0, x: -30 }}

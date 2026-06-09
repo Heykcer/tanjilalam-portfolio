@@ -822,6 +822,18 @@ a {
   filter: grayscale(0%);
 }
 
+/* ─── FOOTER HEADING ──────────────────────────────────────── */
+.footer-heading {
+  font-size: 2.5rem;
+  letter-spacing: 0.8em;
+  color: rgba(209, 213, 219, 0.25);
+}
+
+/* ─── PROJECTS CONTENT ────────────────────────────────────── */
+.projects-content {
+  align-self: flex-start;
+}
+
 /* ════════════════════════════════════════════════════════════
    RESPONSIVE BREAKPOINTS
    ════════════════════════════════════════════════════════════ */
@@ -844,17 +856,30 @@ a {
     padding: 0.5rem 1rem;
   }
 
-  /* Hero: stack at tablet */
+  /* Hero: stack text + 3D at tablet */
   .hero-section {
     flex-direction: column !important;
     gap: 2.5rem !important;
     justify-content: center !important;
+    align-items: center !important;
     text-align: center;
   }
 
-  .hero-section .content-layer:first-of-type {
+  .hero-section > .content-layer:first-of-type {
     max-width: 680px !important;
     flex: none !important;
+    text-align: center;
+  }
+
+  /* Scale down 3D canvas on tablet */
+  .hero-mask-canvas {
+    width: 240px !important;
+    height: 240px !important;
+  }
+
+  /* Hero buttons centre */
+  .hero-btns {
+    justify-content: center !important;
   }
 
   /* Weapon cases wrap */
@@ -894,16 +919,19 @@ a {
     left: -2.5rem !important;
   }
 
-  /* Achievements: wrap */
+  /* Achievements: reduce gap */
   .achievements-row {
+    gap: 3rem !important;
+  }
+
+  /* Footer CTA reduce gap */
+  .footer-cta-row {
     gap: 3rem !important;
   }
 }
 
 /* ─── MOBILE (≤ 768px) ────────────────────────────────────── */
 @media (max-width: 768px) {
-
-  /* Layout */
   .snap-container {
     scroll-snap-type: y mandatory;
   }
@@ -911,7 +939,7 @@ a {
   .snap-section {
     height: auto;
     min-height: 100svh;
-    padding: 5rem 1.5rem 2rem;
+    padding: 5rem 1.5rem 2.5rem;
     overflow-y: auto;
     scroll-snap-align: start;
   }
@@ -961,33 +989,41 @@ a {
 
   h2 {
     font-size: clamp(1.8rem, 8vw, 3rem) !important;
+    letter-spacing: 0.1em !important;
   }
 
-  /* Hero */
+  h3 {
+    font-size: clamp(1rem, 4vw, 1.4rem) !important;
+  }
+
+  /* ── Hero ── */
   .hero-section {
     flex-direction: column !important;
-    gap: 2rem !important;
+    gap: 1.5rem !important;
     justify-content: flex-start !important;
-    padding-top: 6rem !important;
-    align-items: center;
+    padding-top: 5rem !important;
+    align-items: center !important;
     text-align: center;
   }
 
-  .hero-section .content-layer:first-of-type {
+  .hero-section > .content-layer:first-of-type {
     max-width: 100% !important;
     flex: none !important;
     text-align: center;
   }
 
   .hero-mask-canvas {
-    display: none !important;
+    width: 200px !important;
+    height: 200px !important;
   }
 
-  .hero-mask-mobile {
-    display: flex !important;
+  /* Hero buttons */
+  .hero-btns {
+    justify-content: center !important;
+    flex-wrap: wrap;
   }
 
-  /* Glasspanel */
+  /* Glass panel */
   .glass-panel {
     padding: 1.5rem;
   }
@@ -1000,12 +1036,7 @@ a {
     letter-spacing: 0.2em;
   }
 
-  .hero-btns {
-    justify-content: center !important;
-    flex-wrap: wrap;
-  }
-
-  /* Skills: stack weapon cases */
+  /* ── Skills: stack weapon cases ── */
   .weapon-cases-row {
     flex-direction: column !important;
     gap: 1rem !important;
@@ -1019,16 +1050,29 @@ a {
     padding: 1.25rem 1.5rem;
   }
 
-  /* Projects */
+  /* ── Projects ── */
+  .snap-section#projects {
+    align-items: center !important;
+  }
+
+  .snap-section#projects .content-layer {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
   .mission-scroll {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .mission-scroll:hover {
     transform: none;
   }
 
-  /* Timeline: full-width single column */
+  .mission-scroll:hover::before {
+    transform: none;
+  }
+
+  /* ── Timeline: full-width single column ── */
   .timeline-track {
     left: 1rem;
     display: block;
@@ -1039,7 +1083,7 @@ a {
     margin-left: 3.5rem !important;
     margin-right: 0 !important;
     text-align: left !important;
-    padding: 1.2rem 1.5rem;
+    padding: 1.2rem 1.25rem;
   }
 
   .timeline-item.right {
@@ -1054,11 +1098,20 @@ a {
     top: 1.2rem;
   }
 
-  /* Achievements */
+  /* ── Achievements ── */
   .achievements-row {
     flex-direction: column !important;
     gap: 2.5rem !important;
     align-items: center !important;
+  }
+
+  .achievements-row > div {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .achievement-card {
+    max-width: 100% !important;
   }
 
   .signet-coin {
@@ -1066,11 +1119,16 @@ a {
     height: 120px;
   }
 
-  /* Footer CTA */
+  /* ── Footer ── */
+  .snap-section#footer {
+    padding-top: 4rem !important;
+    padding-bottom: 2rem !important;
+  }
+
   .footer-cta-row {
     flex-direction: column !important;
-    gap: 3rem !important;
-    align-items: center;
+    gap: 2.5rem !important;
+    align-items: center !important;
     margin-bottom: 3rem !important;
   }
 
@@ -1078,7 +1136,20 @@ a {
     flex-direction: column !important;
     gap: 1.5rem !important;
     text-align: center;
-    align-items: center;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ── Projects content ── */
+  .projects-content {
+    align-self: center;
+    max-width: 100% !important;
+  }
+
+  /* ── Footer heading ── */
+  .footer-heading {
+    font-size: 1.6rem !important;
+    letter-spacing: 0.2em !important;
   }
 
   /* Modal */
@@ -1086,59 +1157,132 @@ a {
     padding: 2rem 1.5rem;
     margin: 1rem;
   }
-
-  /* Disable hover slide on projects */
-  .mission-scroll:hover::before {
-    transform: none;
-  }
 }
 
 /* ─── SMALL MOBILE (≤ 480px) ─────────────────────────────── */
 @media (max-width: 480px) {
   .snap-section {
-    padding: 5rem 1rem 1.5rem;
+    padding: 4.5rem 1rem 1.5rem;
   }
 
   .hero-title {
-    font-size: clamp(2.2rem, 16vw, 3.5rem);
-  }
-
-  .glass-panel {
-    padding: 1.2rem;
-  }
-
-  .glass-panel p {
-    font-size: 0.7rem !important;
+    font-size: clamp(2rem, 15vw, 3rem);
   }
 
   h2 {
-    font-size: clamp(1.5rem, 10vw, 2.5rem) !important;
+    font-size: clamp(1.4rem, 9vw, 2.2rem) !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  h3 {
+    font-size: clamp(0.9rem, 4vw, 1.2rem) !important;
+  }
+
+  /* Hero tighter */
+  .hero-section {
+    gap: 1rem !important;
+    padding-top: 4rem !important;
+  }
+
+  .hero-mask-canvas {
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  .glass-panel {
+    padding: 1.1rem;
+  }
+
+  .glass-panel p {
+    font-size: 0.68rem !important;
+  }
+
+  /* Buttons full width on tiny screens */
+  .btn-primary,
+  .btn-ghost {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* Skills */
+  .weapon-case {
+    padding: 1rem 1.2rem;
+  }
+
+  /* Projects */
+  .mission-scroll {
+    padding: 1rem;
+  }
+
+  /* Timeline: tighter */
+  .timeline-track {
+    left: 0.75rem;
+  }
+
+  .timeline-item {
+    width: calc(100% - 2.5rem) !important;
+    margin-left: 2.5rem !important;
+    padding: 1rem 1rem;
+  }
+
+  .timeline-item.left .timeline-dot,
+  .timeline-item.right .timeline-dot {
+    left: -1.6rem !important;
+  }
+
+  /* Achievements full width */
+  .achievements-row > div {
+    max-width: 100%;
+  }
+
+  .achievement-card {
+    padding: 1.2rem !important;
   }
 
   .signet-coin {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
   }
 
+  /* Footer */
   .footer-btn .icon-wrap {
-    width: 70px;
-    height: 70px;
-    font-size: 1.8rem;
+    width: 68px;
+    height: 68px;
+    font-size: 1.7rem;
+  }
+
+  .footer-btn label {
+    font-size: 0.48rem;
+    letter-spacing: 0.3em;
   }
 
   .social-link {
-    width: 38px;
-    height: 38px;
-    font-size: 0.9rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
   }
 
-  /* Section label hidden on very small */
+  /* HUD */
+  .hud-bounty {
+    font-size: 0.38rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* Footer heading tiny */
+  .footer-heading {
+    font-size: 1.2rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  /* Section label: hide decorative line */
   .section-label::before {
     display: none;
   }
 
-  .hud-bounty {
-    font-size: 0.4rem;
-    letter-spacing: 0.15em;
+  /* Modal */
+  .modal-box {
+    padding: 1.5rem 1rem;
+    margin: 0.5rem;
   }
 }

@@ -57,7 +57,7 @@ export default function Achievements() {
       </motion.h2>
 
       <motion.div
-        className="content-layer"
+        className="content-layer achievements-row"
         style={{ display: 'flex', gap: '5rem', flexWrap: 'wrap', justifyContent: 'center', zIndex: 10 }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -81,11 +81,12 @@ export default function Achievements() {
             </div>
 
             <div
-              className="glass-panel"
+              className="glass-panel achievement-card"
               style={{
                 border: `1px solid ${item.textColor}30`,
                 boxShadow: `6px 6px 0 ${item.textColor}`,
-                minWidth: 260,
+                width: '100%',
+                maxWidth: 300,
                 textAlign: 'center',
               }}
             >

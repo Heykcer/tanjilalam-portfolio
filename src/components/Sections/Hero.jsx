@@ -55,7 +55,7 @@ function MaskMesh() {
 export default function Hero() {
   return (
     <section
-      className="snap-section"
+      className="snap-section hero-section"
       style={{
         flexDirection: 'row',
         gap: '4rem',
@@ -117,6 +117,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
+          className="hero-btns"
           style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -133,7 +134,7 @@ export default function Hero() {
 
       {/* ── 3D Mask Canvas ── */}
       <motion.div
-        className="content-layer"
+        className="content-layer hero-mask-canvas"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4, duration: 0.9 }}
