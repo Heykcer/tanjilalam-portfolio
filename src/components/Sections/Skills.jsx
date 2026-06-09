@@ -22,6 +22,11 @@ const arsenal = {
 export default function Skills() {
   const [active, setActive] = useState(null);
 
+  const handleTap = (key) => {
+    // Toggle on tap — works on both mobile and desktop
+    setActive((prev) => (prev === key ? null : key));
+  };
+
   return (
     <section
       className="snap-section"
@@ -31,8 +36,6 @@ export default function Skills() {
         gap: '3rem',
       }}
     >
-
-
       <ErrorBoundary fallback={null}>
         <R3FBackground variant="skills" />
       </ErrorBoundary>
@@ -53,13 +56,13 @@ export default function Skills() {
         <h2 style={{ fontSize: '3.5rem', letterSpacing: '0.15em' }}>
           THE <span style={{ color: 'var(--crimson)', textShadow: '0 0 15px var(--crimson)' }}>ARSENAL</span>
         </h2>
-        <p style={{ fontSize: '0.6rem', letterSpacing: '0.5em', color: 'var(--steel-dim)', marginTop: '0.5rem' }}>
-          WEAPON_SYSTEM_STATUS: ACTIVE — HOVER TO UNLOCK
+        <p style={{ fontSize: '0.6rem', letterSpacing: '0.4em', color: 'var(--steel-dim)', marginTop: '0.5rem' }}>
+          WEAPON_SYSTEM_STATUS: ACTIVE — TAP TO UNLOCK
         </p>
       </motion.div>
 
       <motion.div
-        className="content-layer"
+        className="content-layer weapon-cases-row"
         style={{ display: 'flex', gap: '1.5rem', width: '100%', maxWidth: 900, zIndex: 10 }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -72,6 +75,7 @@ export default function Skills() {
             className={`weapon-case ${active === key ? 'active' : ''}`}
             onMouseEnter={() => setActive(key)}
             onMouseLeave={() => setActive(null)}
+            onClick={() => handleTap(key)}
           >
             <div className="case-label">{key.split(':')[0]}</div>
             <div className="case-title">{key.split(':')[1]?.trim() || key}</div>
@@ -114,9 +118,15 @@ export default function Skills() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              style={{ fontSize: '0.7rem', color: 'rgba(209,213,219,0.2)', textAlign: 'center', letterSpacing: '0.3em', padding: '2rem' }}
+              style={{
+                fontSize: '0.7rem',
+                color: 'rgba(209,213,219,0.2)',
+                textAlign: 'center',
+                letterSpacing: '0.3em',
+                padding: '2rem',
+              }}
             >
-              [ HOVER A CASE TO UNLOCK ARSENAL ]
+              [ TAP A CASE TO UNLOCK ARSENAL ]
             </motion.p>
           )}
         </AnimatePresence>

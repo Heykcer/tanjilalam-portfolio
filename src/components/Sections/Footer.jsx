@@ -99,14 +99,14 @@ export default function Footer() {
       <div className="section-label">THE SILENT EXIT</div>
 
       {/* Header */}
-      <div className="content-layer" style={{ textAlign: 'center', marginBottom: '3rem', zIndex: 10 }}>
-        <h2 style={{ fontSize: '2.5rem', letterSpacing: '1em', color: 'rgba(209,213,219,0.25)' }}>COMMAND CENTER</h2>
+      <div className="content-layer footer-header" style={{ textAlign: 'center', marginBottom: '3rem', zIndex: 10 }}>
+        <h2 className="footer-heading">COMMAND CENTER</h2>
         <div style={{ width: 120, height: 1, background: 'var(--crimson)', margin: '1.5rem auto', boxShadow: '0 0 8px var(--crimson)' }} />
       </div>
 
       {/* CTA Buttons */}
       <div
-        className="content-layer"
+        className="content-layer footer-cta-row"
         style={{ display: 'flex', gap: '5rem', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '5rem', flexWrap: 'wrap', zIndex: 10 }}
       >
         <div
@@ -132,7 +132,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div
-        className="content-layer"
+        className="content-layer footer-bottom-row"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
