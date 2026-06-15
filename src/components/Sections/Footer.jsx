@@ -1,13 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ErrorBoundary from '../Common/ErrorBoundary';
 import R3FBackground from '../Common/R3FBackground';
 import emailjs from '@emailjs/browser';
 
 export default function Footer() {
-  // Stable bounty count — recalculates only once per mount
-  // Anchored to a past date so it starts at ~2000 and grows infinitely
-  const bounty = useMemo(() => 2000 + Math.max(0, Math.floor((Date.now() - 1781500000000) / 1000000)), []);
+  // Global visit counter: increments by 1 on every page load
+  const [bounty, setBounty] = useState(2000);
+
+  useEffect(() => {
+    // Fetch and increment the global counter once when the footer mounts
+    fetch('https://api.counterapi.dev/v1/tanjilalam/portfolio/up')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.count === 'number') {
+          // Add 2000 to the real count to preserve the initial base
+          setBounty(2000 + data.count);
+        }
+      })
+      .catch((error) => console.error('Failed to sync bounty count:', error));
+  }, []);
 
   // Modal visibility — starts closed
   const [modalOpen, setModalOpen] = useState(false);
