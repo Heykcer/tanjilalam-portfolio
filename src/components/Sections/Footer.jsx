@@ -6,7 +6,8 @@ import emailjs from '@emailjs/browser';
 
 export default function Footer() {
   // Stable bounty count — recalculates only once per mount
-  const bounty = useMemo(() => 1337 + Math.floor(Date.now() / 1000000) % 500, []);
+  // Anchored to a past date so it starts at ~2000 and grows infinitely
+  const bounty = useMemo(() => 2000 + Math.max(0, Math.floor((Date.now() - 1781500000000) / 1000000)), []);
 
   // Modal visibility — starts closed
   const [modalOpen, setModalOpen] = useState(false);
